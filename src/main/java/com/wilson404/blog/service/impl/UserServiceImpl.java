@@ -9,12 +9,17 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public ServerResponse<User> login(User user) {
         User tempUser = userRepository.findUserByUserLogin(user.getUserLogin());
@@ -28,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public ServerResponse<User> register(User user) {
         User tempUser = userRepository.findUserByUserLogin(user.getUserLogin());
         if (tempUser != null)
-        return ServerResponse.createByErrorMessage("已存在同名用户");
+            return ServerResponse.createByErrorMessage("已存在同名用户");
         if (user.getPassword() == null || user.getEmail() == null)
             return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT);
         String salt = UUID.randomUUID().toString();
@@ -37,5 +42,9 @@ public class UserServiceImpl implements UserService {
         tempUser = userRepository.saveAndFlush(user);
         if (tempUser == null) return ServerResponse.createByErrorMessage("新建用户失败");
         return ServerResponse.createBySuccess(tempUser);
+    }
+
+    public ServerResponse<List<User>> selectAllUser() {
+        return ServerResponse.createBySuccess(userRepository.findAll());
     }
 }

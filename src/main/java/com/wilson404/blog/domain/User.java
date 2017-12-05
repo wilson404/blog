@@ -5,15 +5,18 @@ import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 
+/**
+ * 用户
+ */
 @Entity
 @Table(name = "T_USER")
 public class User {
     @Id
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @GeneratedValue(generator = "system-uuid")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     @Column(name = "USER_LOGIN", unique = true)
     private String userLogin;
     @Column(name = "PASSWORD")
@@ -43,11 +46,11 @@ public class User {
         this.salt = salt;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
