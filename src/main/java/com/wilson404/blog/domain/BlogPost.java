@@ -1,5 +1,9 @@
 package com.wilson404.blog.domain;
 
+import com.wilson404.blog.common.ResponseCode;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -20,10 +24,12 @@ public class BlogPost {
     private String title;
     @Lob()
     private String content;
+    @CreatedDate
     @Column(updatable = false)
     private Date createDate;
+    @LastModifiedDate
     private Date updateDate;
-    private Byte status;
+    private Byte status = (byte) ResponseCode.SUCCESS.getCode();
 
     public BlogPost() {
     }

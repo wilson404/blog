@@ -14,9 +14,10 @@ public class Term {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
+    @Column(unique = true)
     private String slug;
-    private Byte level;
-    private Byte sort;
+    private Integer level;
+    private Integer sort;
     @ManyToOne
     private Term fatherTerm;
 
@@ -47,19 +48,19 @@ public class Term {
         this.slug = slug;
     }
 
-    public Byte getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(Byte level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
-    public Byte getSort() {
+    public Integer getSort() {
         return sort;
     }
 
-    public void setSort(Byte sort) {
+    public void setSort(Integer sort) {
         this.sort = sort;
     }
 
@@ -71,7 +72,7 @@ public class Term {
         this.fatherTerm = fatherTerm;
     }
 
-    public Term(String name, String slug, Byte level, Byte sort, Term fatherTerm) {
+    public Term(String name, String slug, Integer level, Integer sort, Term fatherTerm) {
         this.name = name;
         this.slug = slug;
         this.level = level;

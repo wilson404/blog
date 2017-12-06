@@ -3,6 +3,7 @@ package com.wilson404.blog.domain;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -21,13 +22,13 @@ public class User {
     private String userLogin;
     @Column(name = "PASSWORD")
     private String password;
-    @Column(name = "USER_NICKNAME", insertable = false, updatable = false)
-    @Generated(GenerationTime.INSERT)
+    @Column(name = "USER_NICKNAME")
     private String userNickname;
     @Column(name = "EMAIL")
     private String email;
     @Column(name = "STATUS")
     private Integer status = 1;
+    @CreatedDate
     @Column(name = "REGISTER_TIME")
     private Date registerTime;
     @Column(name = "SALT")
