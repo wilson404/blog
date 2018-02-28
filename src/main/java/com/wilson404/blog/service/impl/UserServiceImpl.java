@@ -23,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     public ServerResponse<User> login(User user) {
         User tempUser = userRepository.findUserByUserLogin(user.getUserLogin());
+        if (tempUser == null){
+            return ServerResponse.createByError();
+        }
         if (tempUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword() + tempUser.getSalt()))) {
             return ServerResponse.createBySuccess(tempUser);
         } else {

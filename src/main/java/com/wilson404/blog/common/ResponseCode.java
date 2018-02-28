@@ -5,6 +5,7 @@ public enum ResponseCode {
     ERROR(1, "ERROR"),//错误
     NEED_LOGIN(10, "NEED_LOGIN"),//需要登录
     PASSWORD_ERROR(11,"PASSWORD_ERROR"),//密码错误
+    USER_NOT_FOUND(12,"USER NOT FOUND"),//用户不存在
     ILLEGAL_ARGUMENT(2, "ILLEGAL_ARGUMENT");//非法参数
     private int code;
     private String desc;

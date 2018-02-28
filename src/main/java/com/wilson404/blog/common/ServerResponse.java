@@ -2,15 +2,17 @@ package com.wilson404.blog.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
-@JsonSerialize
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ServerResponse<T> implements Serializable {
+    @JsonProperty
     private int status;
+    @JsonProperty
     private String msg;
+    @JsonProperty
     private T data;
 
     private ServerResponse(int status) {
