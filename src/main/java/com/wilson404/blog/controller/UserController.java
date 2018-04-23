@@ -5,6 +5,7 @@ import com.wilson404.blog.domain.User;
 import com.wilson404.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -20,7 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping("/login.do")
+    @RequestMapping(value = "/login.do", method = RequestMethod.POST)
     public ServerResponse login(String userlogin, String password, HttpSession session) {
         User user = new User();
         user.setUserLogin(userlogin);
@@ -30,5 +31,10 @@ public class UserController {
             session.setAttribute("user", user);
         }
         return ret;
+    }
+
+    @RequestMapping("/register.do")
+    ServerResponse register(User user) {
+        return userService.register(user);
     }
 }

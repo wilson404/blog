@@ -10,7 +10,14 @@
 
     <name>blog</name>
     <description>my test blog system.</description>
-
+    <scm>
+        <connection>
+            scm:git:https://github.com/wilson404/blog
+        </connection>
+        <developerConnection>
+            scm:git:https://github.com/wilson404/blog
+        </developerConnection>
+    </scm>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -57,6 +64,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>
