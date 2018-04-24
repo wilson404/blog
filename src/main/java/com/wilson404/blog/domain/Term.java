@@ -1,8 +1,7 @@
 package com.wilson404.blog.domain;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * 博文分组
@@ -18,11 +17,8 @@ public class Term {
     private String slug;
     private Integer level;
     private Integer sort;
-    @ManyToOne
-    private Term fatherTerm;
-
-    public Term() {
-    }
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Term> chlidTerm;
 
     public Integer getId() {
         return id;
@@ -64,19 +60,22 @@ public class Term {
         this.sort = sort;
     }
 
-    public Term getFatherTerm() {
-        return fatherTerm;
+    public List<Term> getChlidTerm() {
+        return chlidTerm;
     }
 
-    public void setFatherTerm(Term fatherTerm) {
-        this.fatherTerm = fatherTerm;
+    public void setChlidTerm(List<Term> chlidTerm) {
+        this.chlidTerm = chlidTerm;
     }
 
-    public Term(String name, String slug, Integer level, Integer sort, Term fatherTerm) {
+    public Term(String name, String slug, Integer level, Integer sort, List<Term> chlidTerm) {
         this.name = name;
         this.slug = slug;
         this.level = level;
         this.sort = sort;
-        this.fatherTerm = fatherTerm;
+        this.chlidTerm = chlidTerm;
+    }
+
+    public Term() {
     }
 }
