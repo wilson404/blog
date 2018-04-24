@@ -45,3 +45,5 @@ buildNumber.properties
 
 src/main/resources/static/
 src/main/resources/templates/
+
+src/main/resources/application-dev.properties
