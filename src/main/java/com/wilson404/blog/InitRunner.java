@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 
 import java.io.FileReader;
@@ -23,29 +24,34 @@ public class InitRunner implements CommandLineRunner {
 
     private static Logger logger = LoggerFactory.getLogger(InitRunner.class);
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final TermRepository termRepository;
+
+    private final BlogPostRepository blogPostRepository;
+
+    private Properties properties;
 
     @Autowired
-    private TermRepository termRepository;
-
-    @Autowired
-    private BlogPostRepository blogPostRepository;
-
-    private Properties properties = new Properties();
+    public InitRunner(UserRepository userRepository, TermRepository termRepository, BlogPostRepository blogPostRepository) throws IOException {
+        this.userRepository = userRepository;
+        this.termRepository = termRepository;
+        this.blogPostRepository = blogPostRepository;
+        properties = new Properties();
+        properties.load(new FileReader(ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "blog_init.properties")));
+    }
 
     @Override
-    public void run(String... strings) throws Exception {
+    @Transactional
+    public void run(String... strings) {
         createFirstUser();
         createFirstTerm();
         createFirstBlogPost();
     }
 
-    private void createFirstUser() throws IOException {
+    private void createFirstUser() {
         if (userRepository.count() != 0) return;
         logger.info("init -create admin user");
-        properties = new Properties();
-        properties.load(new FileReader(ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "blog_init.properties")));
         User user = new User();
         user.setUserLogin(properties.getProperty("first.user.name"));
         user.setPassword(properties.getProperty("first.user.password"));
@@ -58,10 +64,9 @@ public class InitRunner implements CommandLineRunner {
         logger.info("created admin user end");
     }
 
-    private void createFirstTerm() throws IOException {
+    private void createFirstTerm() {
         if (termRepository.count() != 0) return;
         logger.info("init -create uncategorized term");
-        properties.load(new FileReader(ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "blog_init.properties")));
         Term term = new Term();
         term.setName(properties.getProperty("first.term.name"));
         term.setSlug(properties.getProperty("first.term.slug"));
@@ -71,10 +76,9 @@ public class InitRunner implements CommandLineRunner {
         logger.info("create uncategorized term end");
     }
 
-    private void createFirstBlogPost() throws IOException {
+    private void createFirstBlogPost() {
         if (blogPostRepository.count() != 0) return;
         logger.info("init firet blogPost");
-        properties.load(new FileReader(ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "blog_init.properties")));
         BlogPost blogPost = new BlogPost();
         blogPost.setAuthor(userRepository.findUserByUserLogin(properties.getProperty("first.user.name")));
         List<Term> terms = new ArrayList<>();
@@ -83,6 +87,6 @@ public class InitRunner implements CommandLineRunner {
         blogPost.setTitle(properties.getProperty("first.blogPost.title"));
         blogPost.setContent(properties.getProperty("first.blogPost.content"));
         blogPostRepository.save(blogPost);
-        logger.info("init firet blogPost end");
+        logger.info("init first blogPost end");
     }
 }
