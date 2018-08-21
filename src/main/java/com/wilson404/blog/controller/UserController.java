@@ -1,7 +1,7 @@
 package com.wilson404.blog.controller;
 
 import com.wilson404.blog.common.ServerResponse;
-import com.wilson404.blog.domain.User;
+import com.wilson404.blog.entity.UserEntity;
 import com.wilson404.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +22,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login.do", method = RequestMethod.POST)
-    public ServerResponse login(String userlogin, String password, HttpSession session) {
-        User user = new User();
-        user.setUserLogin(userlogin);
-        user.setPassword(password);
+    public ServerResponse login(UserEntity user, HttpSession session) {
         ServerResponse ret = userService.login(user);
         if (ret.isSuccess()) {
             session.setAttribute("user", user);
@@ -34,7 +31,7 @@ public class UserController {
     }
 
     @RequestMapping("/register.do")
-    ServerResponse register(User user) {
+    public ServerResponse register(UserEntity user) {
         return userService.register(user);
     }
 }

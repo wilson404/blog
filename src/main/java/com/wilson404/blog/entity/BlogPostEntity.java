@@ -1,4 +1,4 @@
-package com.wilson404.blog.domain;
+package com.wilson404.blog.entity;
 
 import com.wilson404.blog.common.ResponseCode;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,15 +16,15 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "T_BLOG_POST")
-public class BlogPost {
+public class BlogPostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @ManyToOne
     @NotNull
-    private User author;
+    private UserEntity author;
     @ManyToMany
-    private List<Term> termList;
+    private List<TermEntity> termList;
     private String title;
     @Lob()
     private String content;
@@ -35,10 +35,10 @@ public class BlogPost {
     private Date updateDate;
     private Byte status = (byte) ResponseCode.SUCCESS.getCode();
 
-    public BlogPost() {
+    public BlogPostEntity() {
     }
 
-    public BlogPost(User author, List<Term> termList, String title, String content, Date createDate, Date updateDate, Byte status) {
+    public BlogPostEntity(UserEntity author, List<TermEntity> termList, String title, String content, Date createDate, Date updateDate, Byte status) {
         this.author = author;
         this.termList = termList;
         this.title = title;
@@ -56,19 +56,19 @@ public class BlogPost {
         this.id = id;
     }
 
-    public User getAuthor() {
+    public UserEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(UserEntity author) {
         this.author = author;
     }
 
-    public List<Term> getTermList() {
+    public List<TermEntity> getTermList() {
         return termList;
     }
 
-    public void setTermList(List<Term> termList) {
+    public void setTermList(List<TermEntity> termList) {
         this.termList = termList;
     }
 

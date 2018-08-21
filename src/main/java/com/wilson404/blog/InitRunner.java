@@ -1,6 +1,9 @@
 package com.wilson404.blog;
 
 import com.wilson404.blog.domain.*;
+import com.wilson404.blog.entity.BlogPostEntity;
+import com.wilson404.blog.entity.TermEntity;
+import com.wilson404.blog.entity.UserEntity;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +55,7 @@ public class InitRunner implements CommandLineRunner {
     private void createFirstUser() {
         if (userRepository.count() != 0) return;
         logger.info("init -create admin user");
-        User user = new User();
+        UserEntity user = new UserEntity();
         user.setUserLogin(properties.getProperty("first.user.name"));
         user.setPassword(properties.getProperty("first.user.password"));
         user.setEmail(properties.getProperty("first.user.email"));
@@ -67,7 +70,7 @@ public class InitRunner implements CommandLineRunner {
     private void createFirstTerm() {
         if (termRepository.count() != 0) return;
         logger.info("init -create uncategorized term");
-        Term term = new Term();
+        TermEntity term = new TermEntity();
         term.setName(properties.getProperty("first.term.name"));
         term.setSlug(properties.getProperty("first.term.slug"));
         term.setLevel(0);
@@ -79,9 +82,9 @@ public class InitRunner implements CommandLineRunner {
     private void createFirstBlogPost() {
         if (blogPostRepository.count() != 0) return;
         logger.info("init firet blogPost");
-        BlogPost blogPost = new BlogPost();
+        BlogPostEntity blogPost = new BlogPostEntity();
         blogPost.setAuthor(userRepository.findUserByUserLogin(properties.getProperty("first.user.name")));
-        List<Term> terms = new ArrayList<>();
+        List<TermEntity> terms = new ArrayList<>();
         terms.add(termRepository.findBySlug(properties.getProperty("first.term.slug")));
         blogPost.setTermList(terms);
         blogPost.setTitle(properties.getProperty("first.blogPost.title"));

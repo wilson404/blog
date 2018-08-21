@@ -1,12 +1,8 @@
-package com.wilson404.blog.domain;
+package com.wilson404.blog.entity;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 
 /**
@@ -14,7 +10,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "T_USER")
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -34,10 +30,10 @@ public class User {
     @Column(name = "SALT")
     private String salt;
 
-    public User() {
+    public UserEntity() {
     }
 
-    public User(String userLogin, String password, String userNickname, String email, Integer status, Date registerTime, String salt) {
+    public UserEntity(String userLogin, String password, String userNickname, String email, Integer status, Date registerTime, String salt) {
         this.userLogin = userLogin;
         this.password = password;
         this.userNickname = userNickname;

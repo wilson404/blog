@@ -1,4 +1,4 @@
-package com.wilson404.blog.domain;
+package com.wilson404.blog.entity;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "T_TERM")
-public class Term {
+public class TermEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -18,7 +18,7 @@ public class Term {
     private Integer level;
     private Integer sort;
     @OneToMany(fetch = FetchType.LAZY)
-    private List<Term> chlidTerm;
+    private List<TermEntity> chlidTerm;
 
     public Integer getId() {
         return id;
@@ -60,15 +60,15 @@ public class Term {
         this.sort = sort;
     }
 
-    public List<Term> getChlidTerm() {
+    public List<TermEntity> getChlidTerm() {
         return chlidTerm;
     }
 
-    public void setChlidTerm(List<Term> chlidTerm) {
+    public void setChlidTerm(List<TermEntity> chlidTerm) {
         this.chlidTerm = chlidTerm;
     }
 
-    public Term(String name, String slug, Integer level, Integer sort, List<Term> chlidTerm) {
+    public TermEntity(String name, String slug, Integer level, Integer sort, List<TermEntity> chlidTerm) {
         this.name = name;
         this.slug = slug;
         this.level = level;
@@ -76,6 +76,6 @@ public class Term {
         this.chlidTerm = chlidTerm;
     }
 
-    public Term() {
+    public TermEntity() {
     }
 }
