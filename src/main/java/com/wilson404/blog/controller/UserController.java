@@ -1,12 +1,12 @@
 package com.wilson404.blog.controller;
 
+import com.wilson404.blog.common.ResponseCode;
 import com.wilson404.blog.common.ServerResponse;
+import com.wilson404.blog.dto.SessionVO;
 import com.wilson404.blog.entity.UserEntity;
 import com.wilson404.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,22 +16,37 @@ public class UserController {
 
     private final UserService userService;
 
+    private final SessionVO sessionVO;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService,SessionVO sessionVO) {
         this.userService = userService;
+        this.sessionVO = sessionVO;
     }
 
     @RequestMapping(value = "/login.do", method = RequestMethod.POST)
-    public ServerResponse login(UserEntity user, HttpSession session) {
-        ServerResponse ret = userService.login(user);
+    @ResponseBody
+    public ServerResponse login(@RequestBody  UserEntity user) {
+        ServerResponse<UserEntity> ret = userService.login(user);
         if (ret.isSuccess()) {
-            session.setAttribute("user", user);
+            sessionVO.setUserEntity(ret.getData());
         }
         return ret;
     }
 
+    @RequestMapping(value = "/hasLogin.do")
+    @ResponseBody
+    public ServerResponse hasLogin() {
+        UserEntity userEntity = sessionVO.getUserEntity();
+        if (userEntity !=null){
+            return ServerResponse.createBySuccess(userEntity);
+        }
+        return ServerResponse.createByError(ResponseCode.NEED_LOGIN);
+    }
+
     @RequestMapping("/register.do")
-    public ServerResponse register(UserEntity user) {
+    @ResponseBody
+    public ServerResponse register(@RequestBody UserEntity user) {
         return userService.register(user);
     }
 }

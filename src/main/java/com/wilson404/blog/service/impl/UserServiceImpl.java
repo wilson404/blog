@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
+
     private final UserRepository userRepository;
 
     @Autowired
@@ -25,9 +26,10 @@ public class UserServiceImpl implements UserService {
     public ServerResponse<UserEntity> login(UserEntity user) {
         UserEntity tempUser = userRepository.findUserByUserLogin(user.getUserLogin());
         if (tempUser == null){
-            return ServerResponse.createByError();
+            return ServerResponse.createByError(ResponseCode.USER_NOT_FOUND);
         }
         if (tempUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword() + tempUser.getSalt()))) {
+            tempUser.setPassword("");
             return ServerResponse.createBySuccess(tempUser);
         } else {
             return ServerResponse.createByError(ResponseCode.PASSWORD_ERROR);

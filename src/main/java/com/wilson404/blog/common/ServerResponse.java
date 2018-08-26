@@ -65,6 +65,10 @@ public class ServerResponse<T> implements Serializable {
         return new ServerResponse<>(ResponseCode.ERROR.getCode(),msg);
     }
 
+    public T getData() {
+        return data;
+    }
+
     @Override
     public String toString() {
         return "ServerResponse{" +
