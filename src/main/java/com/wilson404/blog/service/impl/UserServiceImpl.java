@@ -24,11 +24,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ServerResponse<UserEntity> login(UserEntity user) {
-        UserEntity tempUser = userRepository.findUserByUserLogin(user.getUserLogin());
+        UserEntity tempUser = userRepository.findByUserLogin(user.getUserLogin());
         if (tempUser == null){
             return ServerResponse.createByError(ResponseCode.USER_NOT_FOUND);
         }
-        if (tempUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword() + tempUser.getSalt()))) {
+        if (tempUser.getPassword().equals(user.getPassword())) {
             tempUser.setPassword("");
             return ServerResponse.createBySuccess(tempUser);
         } else {
@@ -38,14 +38,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ServerResponse<UserEntity> register(UserEntity user) {
-        UserEntity tempUser = userRepository.findUserByUserLogin(user.getUserLogin());
+        UserEntity tempUser = userRepository.findByUserLogin(user.getUserLogin());
         if (tempUser != null)
             return ServerResponse.createByErrorMessage("已存在同名用户");
         if (user.getPassword() == null || user.getEmail() == null)
             return ServerResponse.createByError(ResponseCode.ILLEGAL_ARGUMENT);
-        String salt = UUID.randomUUID().toString();
-        user.setSalt(salt);
-        user.setPassword(DigestUtils.md5Hex(user.getPassword() + user.getSalt()));
         tempUser = userRepository.saveAndFlush(user);
         if (tempUser == null) return ServerResponse.createByErrorMessage("新建用户失败");
         return ServerResponse.createBySuccess(tempUser);
@@ -53,6 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ServerResponse<List<UserEntity>> selectAllUser() {
+       
         return ServerResponse.createBySuccess(userRepository.findAll());
     }
 }

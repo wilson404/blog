@@ -12,7 +12,7 @@ import java.util.Date;
 @Table(name = "T_USER")
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "USER_LOGIN", unique = true)
     private String userLogin;
@@ -27,20 +27,17 @@ public class UserEntity {
     @CreatedDate
     @Column(name = "REGISTER_TIME")
     private Date registerTime;
-    @Column(name = "SALT")
-    private String salt;
 
     public UserEntity() {
     }
 
-    public UserEntity(String userLogin, String password, String userNickname, String email, Integer status, Date registerTime, String salt) {
+    public UserEntity(String userLogin, String password, String userNickname, String email, Integer status, Date registerTime) {
         this.userLogin = userLogin;
         this.password = password;
         this.userNickname = userNickname;
         this.email = email;
         this.status = status;
         this.registerTime = registerTime;
-        this.salt = salt;
     }
 
     public Integer getId() {
@@ -99,13 +96,7 @@ public class UserEntity {
         this.registerTime = registerTime;
     }
 
-    public String getSalt() {
-        return salt;
-    }
 
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
 
     @Override
     public String toString() {
@@ -117,7 +108,6 @@ public class UserEntity {
                 ", email='" + email + '\'' +
                 ", status='" + status + '\'' +
                 ", registerTime=" + registerTime +
-                ", salt='" + salt + '\'' +
                 '}';
     }
 }

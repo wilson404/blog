@@ -60,9 +60,6 @@ public class InitRunner implements CommandLineRunner {
         user.setPassword(properties.getProperty("first.user.password"));
         user.setEmail(properties.getProperty("first.user.email"));
         user.setUserNickname(properties.getProperty("first.user.nickname"));
-        String salt = UUID.randomUUID().toString();
-        user.setSalt(salt);
-        user.setPassword(DigestUtils.md5Hex(user.getPassword() + user.getSalt()));
         userRepository.save(user);
         logger.info("created admin user end");
     }
@@ -83,7 +80,7 @@ public class InitRunner implements CommandLineRunner {
         if (blogPostRepository.count() != 0) return;
         logger.info("init firet blogPost");
         BlogPostEntity blogPost = new BlogPostEntity();
-        blogPost.setAuthor(userRepository.findUserByUserLogin(properties.getProperty("first.user.name")));
+        blogPost.setAuthor(userRepository.findByUserLogin(properties.getProperty("first.user.name")));
         List<TermEntity> terms = new ArrayList<>();
         terms.add(termRepository.findBySlug(properties.getProperty("first.term.slug")));
         blogPost.setTermList(terms);
