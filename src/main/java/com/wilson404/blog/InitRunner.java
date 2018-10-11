@@ -60,6 +60,7 @@ public class InitRunner implements CommandLineRunner {
         user.setPassword(properties.getProperty("first.user.password"));
         user.setEmail(properties.getProperty("first.user.email"));
         user.setUserNickname(properties.getProperty("first.user.nickname"));
+        user.setAdmin(true);
         userRepository.save(user);
         logger.info("created admin user end");
     }

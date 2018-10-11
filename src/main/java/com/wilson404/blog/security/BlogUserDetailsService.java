@@ -30,9 +30,13 @@ public class BlogUserDetailsService implements UserDetailsService {
         if (user == null) {
             return null;
         }
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("USER");
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(grantedAuthority);
+        GrantedAuthority userAuthority = new SimpleGrantedAuthority("USER");
+        grantedAuthorities.add(userAuthority);
+        if (user.getAdmin()){
+            GrantedAuthority adminAuthority = new SimpleGrantedAuthority("USER");
+            grantedAuthorities.add(adminAuthority);
+        }
         return new User(user.getUserLogin(), user.getPassword(), grantedAuthorities);
     }
 }

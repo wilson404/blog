@@ -24,17 +24,17 @@ public class UserController {
         this.sessionVO = sessionVO;
     }
 
-    @RequestMapping(value = "/login.do", method = RequestMethod.POST)
-    @ResponseBody
-    public ServerResponse login(@RequestBody  UserEntity user) {
-        ServerResponse<UserEntity> ret = userService.login(user);
-        if (ret.isSuccess()) {
-            sessionVO.setUserEntity(ret.getData());
-        }
-        return ret;
-    }
+//    @RequestMapping(value = "/login.do", method = RequestMethod.POST)
+//    @ResponseBody
+//    public ServerResponse login(@RequestBody  UserEntity user) {
+//        ServerResponse<UserEntity> ret = userService.login(user);
+//        if (ret.isSuccess()) {
+//            sessionVO.setUserEntity(ret.getData());
+//        }
+//        return ret;
+//    }
 
-    @RequestMapping(value = "/hasLogin.do")
+    @RequestMapping(value = "/hasLogin")
     @ResponseBody
     public ServerResponse hasLogin() {
         UserEntity userEntity = sessionVO.getUserEntity();
@@ -44,7 +44,7 @@ public class UserController {
         return ServerResponse.createByError(ResponseCode.NEED_LOGIN);
     }
 
-    @RequestMapping("/register.do")
+    @RequestMapping("/register")
     @ResponseBody
     public ServerResponse register(@RequestBody UserEntity user) {
         return userService.register(user);

@@ -2,15 +2,13 @@ package com.wilson404.blog.service.impl;
 
 import com.wilson404.blog.common.ResponseCode;
 import com.wilson404.blog.common.ServerResponse;
-import com.wilson404.blog.entity.UserEntity;
 import com.wilson404.blog.domain.UserRepository;
+import com.wilson404.blog.entity.UserEntity;
 import com.wilson404.blog.service.UserService;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -25,7 +23,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ServerResponse<UserEntity> login(UserEntity user) {
         UserEntity tempUser = userRepository.findByUserLogin(user.getUserLogin());
-        if (tempUser == null){
+        if (tempUser == null) {
             return ServerResponse.createByError(ResponseCode.USER_NOT_FOUND);
         }
         if (tempUser.getPassword().equals(user.getPassword())) {
@@ -50,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ServerResponse<List<UserEntity>> selectAllUser() {
-       
+
         return ServerResponse.createBySuccess(userRepository.findAll());
     }
 }

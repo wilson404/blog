@@ -28,16 +28,21 @@ public class UserEntity {
     @Column(name = "REGISTER_TIME")
     private Date registerTime;
 
+    @Column(name = "IS_ADMIN")
+    private Boolean isAdmin = false;
+
+
     public UserEntity() {
     }
 
-    public UserEntity(String userLogin, String password, String userNickname, String email, Integer status, Date registerTime) {
+    public UserEntity(String userLogin, String password, String userNickname, String email, Integer status, Date registerTime, Boolean isAdmin) {
         this.userLogin = userLogin;
         this.password = password;
         this.userNickname = userNickname;
         this.email = email;
         this.status = status;
         this.registerTime = registerTime;
+        this.isAdmin = isAdmin;
     }
 
     public Integer getId() {
@@ -97,17 +102,25 @@ public class UserEntity {
     }
 
 
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
+    }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
+        return "UserEntity{" +
+                "id=" + id +
                 ", userLogin='" + userLogin + '\'' +
                 ", password='" + password + '\'' +
                 ", userNickname='" + userNickname + '\'' +
                 ", email='" + email + '\'' +
-                ", status='" + status + '\'' +
+                ", status=" + status +
                 ", registerTime=" + registerTime +
+                ", isAdmin=" + isAdmin +
                 '}';
     }
 }
