@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TermServiceImpl implements TermService {
-    @Autowired
-    private TermRepository termRepository;
+    private final TermRepository termRepository;
 
+    @Autowired
+    public TermServiceImpl(TermRepository termRepository) {
+        this.termRepository = termRepository;
+    }
 }
