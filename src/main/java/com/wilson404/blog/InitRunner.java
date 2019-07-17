@@ -4,7 +4,6 @@ import com.wilson404.blog.domain.*;
 import com.wilson404.blog.entity.BlogPostEntity;
 import com.wilson404.blog.entity.TermEntity;
 import com.wilson404.blog.entity.UserEntity;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 
 @Component
 @Order(value = 1)

@@ -20,7 +20,7 @@ public interface TermRepository extends JpaRepository<TermEntity, Integer> {
 
     @CacheEvict
     @Override
-    void delete(Integer integer);
+    void deleteById(Integer integer);
 
     @CacheEvict(key = "#p0.slug")
     @Override

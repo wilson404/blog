@@ -7,11 +7,15 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+
+import java.time.Duration;
 
 @Configuration
 @EnableCaching
@@ -23,13 +27,13 @@ public class CacheConfig {
         template.afterPropertiesSet();
         return template;
     }
-
     @Bean
-    public CacheManager cacheManager(RedisTemplate redisTemplate) {
-        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
-        //设置缓存过期时间
-        cacheManager.setDefaultExpiration(10000);
-        return cacheManager;
+    public CacheManager cacheManager(RedisConnectionFactory factory) {
+        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofHours(1)); // 设置缓存有效期一小时
+        return RedisCacheManager
+                .builder(RedisCacheWriter.nonLockingRedisCacheWriter(factory))
+                .cacheDefaults(redisCacheConfiguration).build();
     }
 
     private void setSerializer(StringRedisTemplate template) {

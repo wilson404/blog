@@ -8,8 +8,6 @@ import com.wilson404.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-
 @RequestMapping("/user")
 @RestController
 public class UserController {
@@ -36,7 +34,7 @@ public class UserController {
 
     @RequestMapping(value = "/hasLogin")
     @ResponseBody
-    public ServerResponse hasLogin() {
+    public ServerResponse<UserEntity> hasLogin() {
         UserEntity userEntity = sessionVO.getUserEntity();
         if (userEntity !=null){
             return ServerResponse.createBySuccess(userEntity);
@@ -46,7 +44,7 @@ public class UserController {
 
     @RequestMapping("/register")
     @ResponseBody
-    public ServerResponse register(@RequestBody UserEntity user) {
+    public ServerResponse<UserEntity> register(@RequestBody UserEntity user) {
         return userService.register(user);
     }
 }

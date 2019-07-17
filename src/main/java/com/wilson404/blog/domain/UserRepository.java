@@ -28,7 +28,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     @CacheEvict
     @Override
-    void delete(Integer integer);
+    void deleteById(Integer integer);
 
     @CacheEvict(key = "'user_'.concat(#p0.userLogin)")
     @Override
