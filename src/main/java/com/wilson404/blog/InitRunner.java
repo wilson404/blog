@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
@@ -31,13 +33,16 @@ public class InitRunner implements CommandLineRunner {
 
     private final BlogPostRepository blogPostRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     private Properties properties;
 
     @Autowired
-    public InitRunner(UserRepository userRepository, TermRepository termRepository, BlogPostRepository blogPostRepository) throws IOException {
+    public InitRunner(UserRepository userRepository, TermRepository termRepository, BlogPostRepository blogPostRepository, PasswordEncoder passwordEncoder) throws IOException {
         this.userRepository = userRepository;
         this.termRepository = termRepository;
         this.blogPostRepository = blogPostRepository;
+        this.passwordEncoder = passwordEncoder;
         properties = new Properties();
         properties.load(new FileReader(ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "blog_init.properties")));
     }
@@ -55,7 +60,7 @@ public class InitRunner implements CommandLineRunner {
         logger.info("init -create admin user");
         UserEntity user = new UserEntity();
         user.setUserLogin(properties.getProperty("first.user.name"));
-        user.setPassword(properties.getProperty("first.user.password"));
+        user.setPassword(passwordEncoder.encode(properties.getProperty("first.user.password")));
         user.setEmail(properties.getProperty("first.user.email"));
         user.setUserNickname(properties.getProperty("first.user.nickname"));
         user.setAdmin(true);

@@ -34,7 +34,7 @@ public class BlogUserDetailsService implements UserDetailsService {
         GrantedAuthority userAuthority = new SimpleGrantedAuthority("USER");
         grantedAuthorities.add(userAuthority);
         if (user.getAdmin()){
-            GrantedAuthority adminAuthority = new SimpleGrantedAuthority("USER");
+            GrantedAuthority adminAuthority = new SimpleGrantedAuthority("ADMIN");
             grantedAuthorities.add(adminAuthority);
         }
         return new User(user.getUserLogin(), user.getPassword(), grantedAuthorities);
