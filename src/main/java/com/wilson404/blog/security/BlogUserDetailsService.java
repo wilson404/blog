@@ -1,5 +1,6 @@
 package com.wilson404.blog.security;
 
+import com.wilson404.blog.common.Role;
 import com.wilson404.blog.domain.UserRepository;
 import com.wilson404.blog.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,10 @@ public class BlogUserDetailsService implements UserDetailsService {
             return null;
         }
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        GrantedAuthority userAuthority = new SimpleGrantedAuthority("USER");
+        GrantedAuthority userAuthority = new SimpleGrantedAuthority(Role.USER.getRoleName());
         grantedAuthorities.add(userAuthority);
         if (user.getAdmin()){
-            GrantedAuthority adminAuthority = new SimpleGrantedAuthority("ADMIN");
+            GrantedAuthority adminAuthority = new SimpleGrantedAuthority(Role.ADMIN.getRoleName());
             grantedAuthorities.add(adminAuthority);
         }
         return new User(user.getUserLogin(), user.getPassword(), grantedAuthorities);

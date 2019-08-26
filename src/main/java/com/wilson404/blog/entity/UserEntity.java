@@ -1,8 +1,10 @@
 package com.wilson404.blog.entity;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,14 +12,17 @@ import java.util.Date;
  * 用户
  */
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "T_USER")
 public class UserEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "USER_LOGIN", unique = true)
+    @NotNull
     private String userLogin;
     @Column(name = "PASSWORD")
+    @NotNull
     private String password;
     @Column(name = "USER_NICKNAME")
     private String userNickname;
